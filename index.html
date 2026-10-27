@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meni igraonice</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#ffcf3d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500..900&family=Nunito:wght@400..900&display=swap">
+<style>
+/* Layout: a sunny awning header, a sticky row of category chips, then picture cards two-up on phones and four-up on wide screens. */
+:root {
+  --bg: #f3f5fb;
+  --surface: #ffffff;
+  --ink: #1d2340;
+  --muted: #5b6185;
+  --line: #dde1ee;
+  --band: #ffcf3d;
+  --band-ink: #1d2340;
+  --chip-on: #1d2340;
+  --chip-on-ink: #ffffff;
+  --display: "Grandstander", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --text: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: light;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12152a; --surface: #1b2040; --ink: #eef0fb; --muted: #a4a9c8; --line: #2c3257;
+    --band: #f4c430; --band-ink: #1d2340; --chip-on: #eef0fb; --chip-on-ink: #12152a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12152a; --surface: #1b2040; --ink: #eef0fb; --muted: #a4a9c8; --line: #2c3257;
+  --band: #f4c430; --band-ink: #1d2340; --chip-on: #eef0fb; --chip-on-ink: #12152a;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1rem/1.45 var(--text);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--bg);
+}
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
+
+.wrap {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Header with an awning edge */
+.masthead { background: var(--band); color: var(--band-ink); }
+.masthead .wrap { padding-block: 18px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand svg { flex: none; width: 3.4rem; height: 3.4rem; }
+.brand-text { min-width: 0; }
+.name {
+  margin: 0; font-family: var(--display); font-weight: 800;
+  font-size: clamp(2.4rem, 11vw, 3.4rem); line-height: 1; letter-spacing: -.01em;
+}
+.subtitle { margin: 4px 0 0; font-weight: 700; font-size: .98rem; }
+.scallop {
+  height: 14px;
+  background: radial-gradient(circle at 50% 0, var(--band) 13px, transparent 13.5px) 0 0 / 28px 14px repeat-x;
+}
+
+.lang { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(29, 35, 64, .1); flex: none; }
+.lang button {
+  appearance: none; border: 0; background: transparent; color: var(--band-ink);
+  font: 800 .78rem/1 var(--text); letter-spacing: .06em;
+  min-width: 44px; padding: 10px 10px; border-radius: 999px; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
+.lang button:focus-visible { outline-color: var(--band-ink); }
+
+/* Category chips */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); }
+.rail .wrap {
+  display: flex; gap: 8px; padding-block: 10px;
+  overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.rail .wrap::-webkit-scrollbar { display: none; }
+.rail.stuck { box-shadow: 0 1px 0 var(--line); }
+.chip {
+  flex: none; display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border-radius: 999px; white-space: nowrap; text-decoration: none;
+  font-weight: 800; font-size: .92rem; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line);
+}
+.chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.chip[aria-current="true"] { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
+
+/* Sections */
+main.wrap { padding-block: 4px 12px; }
+.status { color: var(--muted); padding-block: 40px; margin: 0; }
+.status button {
+  margin-top: 12px; display: block; appearance: none; cursor: pointer;
+  font: 800 .95rem var(--text); color: var(--chip-on-ink); background: var(--chip-on);
+  border: 0; border-radius: 999px; padding: 11px 20px;
+}
+.cat {
+  padding-top: 22px;
+  scroll-margin-top: calc(var(--rail-h, 60px) + env(safe-area-inset-top, 0px) - 8px);
+}
+.cat + .cat { margin-top: 16px; }
+.cat-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 4px; }
+.cat-head h2 {
+  margin: 0; font-family: var(--display); font-weight: 800;
+  font-size: 1.85rem; line-height: 1.2; text-wrap: balance;
+  text-decoration: underline wavy var(--c); text-decoration-thickness: 3px;
+  text-underline-offset: 8px; text-decoration-skip-ink: none;
+}
+.badge {
+  display: inline-grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: var(--c); color: #1d2340; font: 900 .92rem/1 var(--text); letter-spacing: -.02em;
+}
+.cat-note { margin: 10px 0 0; color: var(--muted); font-weight: 600; font-size: .92rem; }
+
+.grid {
+  list-style: none; margin: 16px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+}
+.card {
+  display: flex; flex-direction: column; min-width: 0;
+  background: var(--surface); border-radius: 18px; overflow: hidden;
+}
+.pic {
+  position: relative; aspect-ratio: 4 / 3; max-width: 100%;
+  background: color-mix(in srgb, var(--c) 18%, var(--surface));
+}
+.pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.off-label {
+  position: absolute; left: 8px; bottom: 8px;
+  background: var(--ink); color: var(--surface);
+  font: 800 .7rem/1 var(--text); letter-spacing: .04em; text-transform: uppercase;
+  padding: 6px 9px; border-radius: 999px;
+}
+.card.off img { filter: grayscale(1); opacity: .55; }
+.card.off h3, .card.off .desc, .card.off .prices { opacity: .55; }
+.card-body { flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 12px; min-width: 0; }
+.card h3 { margin: 0; font-size: 1rem; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+.desc { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.35; }
+.prices {
+  margin-top: auto; padding-top: 8px; display: grid; gap: 2px;
+  border-top: 1.5px dashed var(--line);
+}
+.prow { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; min-width: 0; }
+.prow .lbl { color: var(--muted); font-size: .84rem; font-weight: 600; min-width: 0; }
+.price { font-weight: 900; font-size: 1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.price small { font-size: .74rem; font-weight: 700; color: var(--muted); margin-left: 3px; }
+
+/* Footer */
+.info { margin-top: 28px; }
+.info .wrap { padding-block: 0 40px; display: grid; gap: 22px; }
+.party {
+  background: var(--band); color: var(--band-ink); border-radius: 18px;
+  padding: 16px 18px; display: grid; gap: 6px;
+}
+.party strong { font-family: var(--display); font-weight: 800; font-size: 1.25rem; line-height: 1.2; }
+.party p { margin: 0; font-weight: 600; }
+.party a { color: inherit; font-weight: 900; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 16px 28px; margin: 0; }
+.facts > div { min-width: 0; }
+.facts dt { margin-bottom: 3px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.facts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; display: grid; gap: 4px; }
+.facts a { color: var(--ink); text-decoration-color: var(--line); text-underline-offset: 3px; }
+.wifi-pass { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.wifi-pass code {
+  font: 700 .95rem ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  background: var(--surface); border: 1px solid var(--line); padding: 3px 8px; border-radius: 8px;
+}
+.copy {
+  appearance: none; cursor: pointer; background: transparent; color: var(--ink);
+  border: 1.5px solid var(--line); border-radius: 999px; font: 800 .74rem/1 var(--text); padding: 8px 12px;
+}
+.notes { display: grid; gap: 4px; }
+.notes p { margin: 0; color: var(--muted); font-size: .86rem; }
+
+@media (min-width: 760px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .masthead .wrap { padding-block: 26px 22px; }
+  .card-body { padding: 12px 14px 14px; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pic img { filter: brightness(.94); }
+}
+:root[data-theme="dark"] .pic img { filter: brightness(.94); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs><clipPath id="zvrk-body"><path d="M32 14 C48 14 60 24 60 32 C60 40 44 52 32 60 C20 52 4 40 4 32 C4 24 16 14 32 14Z"/></clipPath></defs>
+        <rect x="28.5" y="3" width="7" height="14" rx="3.5" fill="#1d2340"/>
+        <g clip-path="url(#zvrk-body)">
+          <rect x="0" y="10" width="64" height="12" fill="#e4572e"/>
+          <rect x="0" y="22" width="64" height="10" fill="#d9488f"/>
+          <rect x="0" y="32" width="64" height="10" fill="#1a94a8"/>
+          <rect x="0" y="42" width="64" height="20" fill="#ffffff"/>
+        </g>
+        <path d="M32 14 C48 14 60 24 60 32 C60 40 44 52 32 60 C20 52 4 40 4 32 C4 24 16 14 32 14Z" fill="none" stroke="#1d2340" stroke-width="2.5" stroke-linejoin="round"/>
+        <ellipse cx="22" cy="24" rx="6" ry="3" fill="#ffffff" opacity=".5" transform="rotate(-20 22 24)"/>
+      </svg>
+      <div class="brand-text">
+        <h1 class="name" id="name">&nbsp;</h1>
+        <p class="subtitle" id="subtitle" hidden></p>
+      </div>
+    </div>
+    <div class="lang" id="lang" role="group"></div>
+  </div>
+</header>
+<div class="scallop" aria-hidden="true"></div>
+
+<nav class="rail" id="rail" aria-label="Kategorije">
+  <div class="wrap" id="rail-inner"></div>
+</nav>
+
+<main class="wrap" id="menu" aria-live="polite">
+  <p class="status">Učitavanje menija… · Loading the menu…</p>
+  <noscript><p class="status">Za prikaz menija uključite JavaScript. · Please enable JavaScript to see the menu.</p></noscript>
+</main>
+
+<footer class="info" id="info" hidden>
+  <div class="wrap">
+    <div class="party" id="party" hidden></div>
+    <dl class="facts" id="facts"></dl>
+    <div class="notes">
+      <p id="allergy"></p>
+      <p id="price-note"></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  // Interface text. A language missing here falls back to English.
+  const UI = {
+    sr: {
+      menu: 'Meni', language: 'Jezik', categories: 'Kategorije', unavailable: 'Trenutno nema',
+      party: 'Rođendani', hours: 'Radno vreme', address: 'Adresa', phone: 'Telefon',
+      wifi: 'Wi-Fi', network: 'Mreža', password: 'Lozinka', copy: 'Kopiraj', copied: 'Kopirano',
+      allergy: 'Imate alergiju? Pitajte osoblje za sastojke.',
+      error: 'Meni trenutno ne može da se učita.', retry: 'Pokušaj ponovo'
+    },
+    en: {
+      menu: 'Menu', language: 'Language', categories: 'Categories', unavailable: 'Not available',
+      party: 'Birthday parties', hours: 'Opening hours', address: 'Address', phone: 'Phone',
+      wifi: 'Wi-Fi', network: 'Network', password: 'Password', copy: 'Copy', copied: 'Copied',
+      allergy: 'Allergies? Ask our staff about ingredients.',
+      error: "The menu can't be loaded right now.", retry: 'Try again'
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } }
+  };
+  let params;
+  try { params = new URLSearchParams(location.search); } catch { params = new URLSearchParams(); }
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const colorOk = (c) => typeof c === 'string' && /^#[0-9a-f]{3,8}$/i.test(c);
+
+  const els = {
+    menu: $('menu'), rail: $('rail'), railInner: $('rail-inner'), lang: $('lang'),
+    name: $('name'), subtitle: $('subtitle'), info: $('info'), party: $('party'),
+    facts: $('facts'), allergy: $('allergy'), priceNote: $('price-note')
+  };
+
+  let data = null;
+  let lang = 'sr';
+  let ui = UI.sr;
+  let activeId = null;
+
+  const t = (v) => {
+    if (v == null) return '';
+    if (typeof v !== 'object') return String(v);
+    return v[lang] ?? v[data && data.defaultLanguage] ?? Object.values(v)[0] ?? '';
+  };
+  const uiFor = (code) => Object.assign({}, UI.en, UI[code] || {}, (data && data.ui && data.ui[code]) || {});
+
+  function money(p) {
+    if (p == null || p === '') return '';
+    if (typeof p !== 'number') return `<span class="price">${esc(t(p))}</span>`;
+    const l = data.languages.find((x) => x.code === lang) || {};
+    let num;
+    try { num = new Intl.NumberFormat(l.locale || lang, { maximumFractionDigits: 2 }).format(p); } catch { num = String(p); }
+    const cur = t(data.currency);
+    return `<span class="price">${esc(num)}${cur ? `<small>${esc(cur)}</small>` : ''}</span>`;
+  }
+
+  function pickLang() {
+    const codes = data.languages.map((l) => l.code);
+    const q = params.get('lang');
+    if (q && codes.includes(q)) return q;
+    const saved = store.get('menu-lang');
+    if (saved && codes.includes(saved)) return saved;
+    const alias = { hr: 'sr', bs: 'sr', sh: 'sr', cnr: 'sr', me: 'sr' };
+    const prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+    for (const pref of prefs) {
+      const p = String(pref).toLowerCase().split('-')[0];
+      if (codes.includes(p)) return p;
+      if (alias[p] && codes.includes(alias[p])) return alias[p];
+    }
+    return codes.includes(data.defaultLanguage) ? data.defaultLanguage : codes[0];
+  }
+
+  function normalize() {
+    if (!Array.isArray(data.languages) || !data.languages.length) data.languages = [{ code: data.defaultLanguage || 'sr', label: 'Srpski' }];
+    data.info = data.info || {};
+    data.categories = (data.categories || []).map((c, i) => Object.assign({}, c, {
+      id: String(c.id || 'kategorija-' + (i + 1)).replace(/[^\w-]/g, '-'),
+      color: colorOk(c.color) ? c.color : '#8a90b0',
+      items: Array.isArray(c.items) ? c.items : []
+    }));
+  }
+
+  function renderLang() {
+    const langs = data.languages;
+    els.lang.hidden = langs.length < 2;
+    els.lang.setAttribute('aria-label', ui.language);
+    els.lang.innerHTML = langs.map((l) =>
+      `<button type="button" data-lang="${esc(l.code)}" lang="${esc(l.code)}" aria-pressed="${l.code === lang}" aria-label="${esc(l.label || l.code)}">${esc((l.short || l.code).toUpperCase())}</button>`
+    ).join('');
+  }
+
+  function renderItem(it) {
+    const off = it.available === false;
+    const rows = Array.isArray(it.variants) && it.variants.length
+      ? it.variants.map((v) => [t(v.label), v.price])
+      : [[t(it.unit), it.price]];
+    const prices = rows.map(([label, price]) =>
+      `<div class="prow"><span class="lbl">${esc(label)}</span>${money(price)}</div>`).join('');
+    const desc = t(it.description);
+    return `<li class="card${off ? ' off' : ''}">
+      <div class="pic">${it.image ? `<img src="${esc(it.image)}" alt="" loading="lazy" decoding="async" width="800" height="600">` : ''}${off ? `<span class="off-label">${esc(ui.unavailable)}</span>` : ''}</div>
+      <div class="card-body">
+        <h3>${esc(t(it.name))}</h3>
+        ${desc ? `<p class="desc">${esc(desc)}</p>` : ''}
+        <div class="prices">${prices}</div>
+      </div>
+    </li>`;
+  }
+
+  function renderCategory(c) {
+    const note = t(c.note);
+    return `<section class="cat" id="c-${c.id}" style="--c:${c.color}" aria-labelledby="h-${c.id}">
+      <div class="cat-head"><h2 id="h-${c.id}">${esc(t(c.name))}</h2>${c.badge ? `<span class="badge">${esc(t(c.badge))}</span>` : ''}</div>
+      ${note ? `<p class="cat-note">${esc(note)}</p>` : ''}
+      <ul class="grid">${c.items.map(renderItem).join('')}</ul>
+    </section>`;
+  }
+
+  function telLink(phone) {
+    return `<a href="tel:${esc(String(phone).replace(/[^\d+]/g, ''))}">${esc(phone)}</a>`;
+  }
+
+  function renderInfo() {
+    const inf = data.info;
+    const party = t(inf.party);
+    els.party.hidden = !party;
+    if (party) {
+      els.party.innerHTML = `<strong>${esc(ui.party)}</strong><p>${esc(party)}</p>${inf.phone ? `<p>${telLink(inf.phone)}</p>` : ''}`;
+    }
+    const rows = [];
+    const hours = t(inf.hours);
+    if (hours) rows.push([ui.hours, esc(hours)]);
+    if (inf.phone) rows.push([ui.phone, telLink(inf.phone)]);
+    if (inf.address) {
+      const href = inf.mapsUrl || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(inf.address);
+      rows.push([ui.address, `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(inf.address)}</a>`]);
+    }
+    if (inf.wifi && (inf.wifi.name || inf.wifi.password)) {
+      let w = '';
+      if (inf.wifi.name) w += `<span>${esc(ui.network)}: <strong>${esc(inf.wifi.name)}</strong></span>`;
+      if (inf.wifi.password) w += `<span class="wifi-pass">${esc(ui.password)}: <code id="wifi-pw">${esc(inf.wifi.password)}</code><button type="button" class="copy" id="copy-pw">${esc(ui.copy)}</button></span>`;
+      rows.push([ui.wifi, w]);
+    }
+    els.facts.innerHTML = rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('');
+    els.facts.hidden = !rows.length;
+    els.allergy.textContent = ui.allergy;
+    els.priceNote.textContent = t(data.priceNote);
+    els.priceNote.hidden = !els.priceNote.textContent;
+    els.info.hidden = false;
+  }
+
+  function render() {
+    document.documentElement.lang = lang;
+    document.title = data.name ? `${data.name} · ${ui.menu}` : ui.menu;
+    els.name.textContent = data.name || ui.menu;
+    els.subtitle.textContent = t(data.subtitle);
+    els.subtitle.hidden = !els.subtitle.textContent;
+    renderLang();
+
+    const cats = data.categories.filter((c) => c.items.length);
+    els.rail.setAttribute('aria-label', ui.categories);
+    els.rail.hidden = cats.length < 2;
+    els.railInner.innerHTML = cats.map((c) =>
+      `<a class="chip" href="#c-${c.id}" data-target="c-${c.id}" style="--c:${c.color}"><span class="dot" aria-hidden="true"></span>${esc(t(c.name))}</a>`
+    ).join('');
+    els.menu.innerHTML = cats.map(renderCategory).join('');
+    renderInfo();
+
+    activeId = null;
+    measure();
+    spy();
+  }
+
+  function measure() {
+    document.documentElement.style.setProperty('--rail-h', (els.rail.hidden ? 0 : els.rail.offsetHeight) + 'px');
+  }
+
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    let current = null;
+    els.railInner.querySelectorAll('.chip').forEach((a) => {
+      const on = a.dataset.target === id;
+      a.setAttribute('aria-current', on ? 'true' : 'false');
+      if (on) current = a;
+    });
+    if (current) {
+      const box = els.railInner;
+      const left = current.offsetLeft - (box.clientWidth - current.offsetWidth) / 2;
+      box.scrollTo({ left: Math.max(0, left), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  }
+
+  function spy() {
+    const sections = els.menu.querySelectorAll('.cat');
+    if (!sections.length) return;
+    const railBox = els.rail.getBoundingClientRect();
+    els.rail.classList.toggle('stuck', railBox.top <= 1 && window.scrollY > 0);
+    const line = railBox.bottom + 16;
+    let current = sections[0];
+    for (const s of sections) {
+      if (s.getBoundingClientRect().top <= line) current = s;
+      else break;
+    }
+    const doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) current = sections[sections.length - 1];
+    setActive(current.id);
+  }
+
+  function setLang(code) {
+    if (!code || code === lang) return;
+    const keep = window.scrollY > 120 ? activeId : null;
+    lang = code;
+    ui = uiFor(code);
+    store.set('menu-lang', code);
+    try {
+      const u = new URL(location.href);
+      if (u.searchParams.has('lang')) { u.searchParams.set('lang', code); history.replaceState(null, '', u); }
+    } catch { /* address bar not writable here */ }
+    render();
+    if (keep) {
+      const el = document.getElementById(keep);
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  function showError() {
+    const prefs = (navigator.languages || [navigator.language || 'sr']).map((l) => String(l).toLowerCase().split('-')[0]);
+    const u = UI[prefs.find((p) => UI[p]) || 'sr'];
+    els.menu.innerHTML = `<div class="status">${esc(u.error)}<button type="button" id="retry">${esc(u.retry)}</button></div>`;
+  }
+
+  async function load() {
+    try {
+      const res = await fetch('menu.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      data = await res.json();
+    } catch (err) {
+      console.error('Menu failed to load:', err);
+      showError();
+      return;
+    }
+    normalize();
+    lang = pickLang();
+    ui = uiFor(lang);
+    render();
+  }
+
+  els.lang.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-lang]');
+    if (b) setLang(b.dataset.lang);
+  });
+  els.railInner.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-target]');
+    if (!a) return;
+    e.preventDefault();
+    const el = document.getElementById(a.dataset.target);
+    if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'retry') { els.menu.innerHTML = '<p class="status">…</p>'; load(); }
+    if (e.target.id === 'copy-pw') {
+      const btn = e.target;
+      const code = $('wifi-pw');
+      const done = () => { btn.textContent = ui.copied; setTimeout(() => { btn.textContent = ui.copy; }, 1600); };
+      const fallback = () => {
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      };
+      try { navigator.clipboard.writeText(code.textContent).then(done, fallback); } catch { fallback(); }
+    }
+  });
+  // A missing picture leaves the tinted frame instead of a broken-image icon.
+  document.addEventListener('error', (e) => {
+    if (e.target && e.target.tagName === 'IMG') e.target.hidden = true;
+  }, true);
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; spy(); });
+  }, { passive: true });
+  window.addEventListener('resize', () => { measure(); spy(); });
+
+  load();
+})();
+</script>
+</body>
+</html>

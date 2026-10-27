@@ -1,0 +1,200 @@
+{
+  "name": "Zvrk",
+  "subtitle": { "sr": "Igraonica i kafe", "en": "Kids' playroom & café" },
+
+  "languages": [
+    { "code": "sr", "label": "Srpski", "locale": "sr-Latn-RS" },
+    { "code": "en", "label": "English", "locale": "en-GB" }
+  ],
+  "defaultLanguage": "sr",
+  "currency": { "sr": "din", "en": "RSD" },
+  "priceNote": { "sr": "Cene su u dinarima, sa PDV-om.", "en": "Prices in Serbian dinars (RSD), VAT included." },
+
+  "info": {
+    "hours": { "sr": "Pon–pet 12–21h, sub–ned 10–22h", "en": "Mon–Fri 12–9 pm, Sat–Sun 10 am–10 pm" },
+    "phone": "+381 60 000 0000",
+    "address": "Primer ulica 7, Beograd",
+    "wifi": { "name": "Zvrk-Roditelji", "password": "igramose" },
+    "party": {
+      "sr": "Organizujemo dečije rođendane. Pozovite nas za slobodan termin i ponudu.",
+      "en": "We host children's birthday parties. Call us for free dates and prices."
+    }
+  },
+
+  "categories": [
+    {
+      "id": "pice",
+      "name": { "sr": "Pice", "en": "Pizza" },
+      "note": { "sr": "Parče ili cela pica od 32 cm", "en": "By the slice or a whole 32 cm pizza" },
+      "color": "#e4572e",
+      "items": [
+        {
+          "name": { "sr": "Margarita", "en": "Margherita" },
+          "description": { "sr": "Paradajz sos, mocarela, bosiljak", "en": "Tomato sauce, mozzarella, basil" },
+          "image": "slike/pica-margarita.svg",
+          "variants": [
+            { "label": { "sr": "Parče", "en": "Slice" }, "price": 220 },
+            { "label": { "sr": "Cela", "en": "Whole" }, "price": 1090 }
+          ]
+        },
+        {
+          "name": { "sr": "Kapričoza", "en": "Capricciosa" },
+          "description": { "sr": "Šunka, sir, pečurke, masline", "en": "Ham, cheese, mushrooms, olives" },
+          "image": "slike/pica-kapricoza.svg",
+          "variants": [
+            { "label": { "sr": "Parče", "en": "Slice" }, "price": 250 },
+            { "label": { "sr": "Cela", "en": "Whole" }, "price": 1290 }
+          ]
+        },
+        {
+          "name": { "sr": "Dečija pica", "en": "Kids' pizza" },
+          "description": { "sr": "Mala pica sa šunkom i sirom, i osmehom", "en": "Small pizza with ham and cheese, and a smiley face" },
+          "image": "slike/pica-decija.svg",
+          "unit": "22 cm",
+          "price": 590
+        },
+        {
+          "name": { "sr": "Vegetarijana", "en": "Vegetarian" },
+          "description": { "sr": "Paprika, paradajz, kukuruz, masline, sir", "en": "Peppers, tomato, sweetcorn, olives, cheese" },
+          "image": "slike/pica-vegetarijana.svg",
+          "variants": [
+            { "label": { "sr": "Parče", "en": "Slice" }, "price": 240 },
+            { "label": { "sr": "Cela", "en": "Whole" }, "price": 1190 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slatkisi",
+      "name": { "sr": "Slatkiši", "en": "Sweets" },
+      "color": "#d9488f",
+      "items": [
+        {
+          "name": { "sr": "Palačinka", "en": "Crêpe" },
+          "description": { "sr": "Čokoladni krem i mleveni keks", "en": "Chocolate spread and crushed biscuits" },
+          "image": "slike/palacinka.svg",
+          "price": 320
+        },
+        {
+          "name": { "sr": "Krofna", "en": "Doughnut" },
+          "description": { "sr": "Glazura od jagode i šarene mrvice", "en": "Strawberry glaze and rainbow sprinkles" },
+          "image": "slike/krofna.svg",
+          "price": 180
+        },
+        {
+          "name": { "sr": "Sladoled", "en": "Ice cream" },
+          "description": { "sr": "Dve kugle u kornetu: vanila, čokolada ili jagoda", "en": "Two scoops in a cone: vanilla, chocolate or strawberry" },
+          "image": "slike/sladoled.svg",
+          "price": 240
+        },
+        {
+          "name": { "sr": "Kokice", "en": "Popcorn" },
+          "description": { "sr": "Slatke ili slane", "en": "Sweet or salted" },
+          "image": "slike/kokice.svg",
+          "variants": [
+            { "label": { "sr": "Male", "en": "Small" }, "price": 180 },
+            { "label": { "sr": "Velike", "en": "Large" }, "price": 280 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bezalkoholna",
+      "name": { "sr": "Bezalkoholna pića", "en": "Soft drinks" },
+      "color": "#1a94a8",
+      "items": [
+        {
+          "name": { "sr": "Ceđena pomorandža", "en": "Fresh orange juice" },
+          "image": "slike/cedjena-pomorandza.svg",
+          "unit": "0,25 l",
+          "price": 320
+        },
+        {
+          "name": { "sr": "Dečiji sok", "en": "Kids' juice box" },
+          "description": { "sr": "Jabuka ili breskva, sa slamčicom", "en": "Apple or peach, with a straw" },
+          "image": "slike/deciji-sok.svg",
+          "unit": "0,2 l",
+          "price": 140
+        },
+        {
+          "name": { "sr": "Limunada", "en": "Lemonade" },
+          "description": { "sr": "Domaća, sa nanom", "en": "Homemade, with mint" },
+          "image": "slike/limunada.svg",
+          "unit": "0,3 l",
+          "price": 260
+        },
+        {
+          "name": { "sr": "Gazirani sok", "en": "Fizzy drink" },
+          "description": { "sr": "Kola, oranž ili limeta", "en": "Cola, orange or lime" },
+          "image": "slike/gazirani-sok.svg",
+          "unit": "0,33 l",
+          "price": 220
+        },
+        {
+          "name": { "sr": "Voda", "en": "Water" },
+          "description": { "sr": "Negazirana ili gazirana", "en": "Still or sparkling" },
+          "image": "slike/voda.svg",
+          "unit": "0,5 l",
+          "price": 150
+        },
+        {
+          "name": { "sr": "Topla čokolada", "en": "Hot chocolate" },
+          "description": { "sr": "Sa šlagom i mekim bombonama", "en": "With whipped cream and marshmallows" },
+          "image": "slike/topla-cokolada.svg",
+          "price": 290
+        },
+        {
+          "name": { "sr": "Kafa", "en": "Coffee" },
+          "description": { "sr": "Uz ratluk", "en": "Served with Turkish delight" },
+          "image": "slike/kafa.svg",
+          "variants": [
+            { "label": { "sr": "Espreso", "en": "Espresso" }, "price": 170 },
+            { "label": { "sr": "Domaća", "en": "Turkish-style" }, "price": 150 }
+          ]
+        },
+        {
+          "name": { "sr": "Kapućino", "en": "Cappuccino" },
+          "image": "slike/kapucino.svg",
+          "price": 230
+        }
+      ]
+    },
+    {
+      "id": "alkoholna",
+      "name": { "sr": "Alkoholna pića", "en": "Alcoholic drinks" },
+      "note": { "sr": "Samo za odrasle", "en": "Adults only" },
+      "badge": "18+",
+      "color": "#c9881a",
+      "items": [
+        {
+          "name": { "sr": "Točeno pivo", "en": "Draught beer" },
+          "image": "slike/pivo.svg",
+          "variants": [
+            { "label": "0,3 l", "price": 250 },
+            { "label": "0,5 l", "price": 330 }
+          ]
+        },
+        {
+          "name": { "sr": "Belo vino", "en": "White wine" },
+          "image": "slike/belo-vino.svg",
+          "unit": "0,15 l",
+          "price": 320
+        },
+        {
+          "name": { "sr": "Crno vino", "en": "Red wine" },
+          "image": "slike/crno-vino.svg",
+          "unit": "0,15 l",
+          "price": 320
+        },
+        {
+          "name": { "sr": "Kuvano vino", "en": "Mulled wine" },
+          "description": { "sr": "Sa cimetom i pomorandžom", "en": "With cinnamon and orange" },
+          "image": "slike/kuvano-vino.svg",
+          "unit": "0,2 l",
+          "price": 350,
+          "available": false
+        }
+      ]
+    }
+  ]
+}
